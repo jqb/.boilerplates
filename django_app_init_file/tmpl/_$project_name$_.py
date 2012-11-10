@@ -1,8 +1,22 @@
 # -*- coding: utf-8 -*-
 """
-Web app initial data, usage from main project directory::
+Web app initial data.
+Usage from main project directory::
 
-    $> python -m apps.init
+    $> python -m app.init
+
+Assuming project structure is something like::
+
+   <projectname>/
+       manage.py
+       app/
+           init.py
+           <project-app-1>/
+           <project-app-2>/
+           ...
+       ...
+
+...and project manage.py contains setup function.
 """
 
 def load_users():
@@ -27,5 +41,6 @@ def load():
 
 
 if __name__ == '__main__':
-    import env; env.setup()
+    import manage
+    manage.setup()
     load()
