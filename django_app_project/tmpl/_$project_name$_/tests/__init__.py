@@ -1,21 +1,50 @@
 # -*- coding: utf-8 -*-
-import os, sys
+# system
+import os
+import re
+import sys
+import unittest
 from os.path import join, pardir, abspath, dirname
+
+# tools
+import nose
+
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'tests.conf'
 sys.path.insert(0, abspath(join(dirname(__file__), pardir)))
 
-# Test stuff
-test_runner, old_config = None, None
 
-def setup():
-    global test_runner, old_config
-    from django.test.simple import DjangoTestSuiteRunner
-    test_runner = DjangoTestSuiteRunner()
-    test_runner.setup_test_environment()
-    old_config = test_runner.setup_databases()
+TestCase = unittest.TestCase
+n        = nose.tools
 
-def teardown():
-    test_runner.teardown_databases(old_config)
-    test_runner.teardown_test_environment()
+
+class DBTestCase(TestCase):
+    test_runner, old_config = None, None
+
+    def setUp(self):
+        from django.test.simple import DjangoTestSuiteRunner
+        self.test_runner = DjangoTestSuiteRunner()
+        self.before_environment_setup()                       # HOOK
+        self.test_runner.setup_test_environment()
+        self.before_database_setup()                          # HOOK
+        self.old_config = self.test_runner.setup_databases()
+        self.setup()  # just to make it look like pep8
+
+    def tearDown(self):
+        self.test_runner.teardown_databases(self.old_config)
+        self.test_runner.teardown_test_environment()
+        self.teardown()  # just to make it look like pep8
+
+    def before_environment_setup(self):
+        pass
+
+    def before_database_setup(self):
+        pass
+
+    def setup(self):
+        pass
+
+    def teardown(self):
+        pass
 # ##############################################################
+

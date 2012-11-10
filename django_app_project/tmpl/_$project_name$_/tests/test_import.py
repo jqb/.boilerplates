@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
+from . import TestCase
 
 
 class ImportTest(TestCase):
