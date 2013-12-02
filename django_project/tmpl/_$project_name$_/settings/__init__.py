@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
+import confy
 
-def create_projectpath(thefile):
-    from os.path import join, dirname, abspath
-    root = abspath(join(dirname(abspath(thefile)), '..'))
-    return lambda *a: join(root, *a)
 
-# "Temporary globals" that migth be useful
-# It can be used in each settings file as builtin
-projectpath = create_projectpath(__file__)
+confy = confy.loader(__file__)
+
+
+confy.define_module(__name__, [
+    confy.from_modules('common', os.environ.get('DJANGO_ENV', 'dev')),
+    confy.from_modules('local_settings', silent=True),
+])
 
 
 def apps_from(folder, include_name=True, as_list=False):
@@ -45,19 +46,3 @@ def apps_from(folder, include_name=True, as_list=False):
         return modules
 
     return tuple(modules)
-
-
-# sequence of settings module to read
-files_base_names = [
-    'common',
-    os.environ.get('DJANGO_ENV', 'dev'),
-    'local_settings'
-]
-
-for base_name in files_base_names:
-    filepath = '%s/%s.py' % (projectpath('settings'), base_name)
-    if os.path.exists(filepath):
-        execfile(filepath)
-
-# cleanup
-del base_name, files_base_names, filepath, projectpath, create_projectpath

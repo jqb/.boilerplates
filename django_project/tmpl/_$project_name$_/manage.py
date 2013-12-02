@@ -44,7 +44,6 @@ if __name__ == "__main__":
     try:
         import settings # Assumed to be in the same directory.
     except ImportError, e:
-        import sys
         sys.stderr.write(
             "Error: Can't find the file 'settings.py' in the directory"
             " containing %r. It appears you've customized things.\nYou'll have to"

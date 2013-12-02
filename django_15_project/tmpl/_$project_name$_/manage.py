@@ -38,13 +38,15 @@ def setup(root=None, settings_module_name=None):
     # 2) cofigure django
     setup_environ(settings)
 
+    return settings
+
 
 if __name__ == "__main__":
     from django.core.management import execute_manager
+
     try:
-        import settings # Assumed to be in the same directory.
+        settings = setup()  # Assumed to be in the same directory.
     except ImportError, e:
-        import sys
         sys.stderr.write(
             "Error: Can't find the file 'settings.py' in the directory"
             " containing %r. It appears you've customized things.\nYou'll have to"

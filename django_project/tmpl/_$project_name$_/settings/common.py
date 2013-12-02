@@ -1,4 +1,3 @@
-PROJECT_ROOT = projectpath()
 SECRET_KEY = '_$secret_key$_'
 
 ROOT_URLCONF = 'settings.urls'
@@ -88,10 +87,10 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 
 # django.contrib.staticfiles
-STATIC_ROOT = projectpath('static')
+STATIC_ROOT = confy.rootpath('..', 'static')
 STATIC_URL = '/static/'
 
 # media files
-MEDIA_ROOT = projectpath('media')
+MEDIA_ROOT = confy.rootpath('..', 'media')
 MEDIA_URL = '/media/'
 # APPS SETTINGS #########################################

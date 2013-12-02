@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export VENV_ROOT="$(pwd)"
