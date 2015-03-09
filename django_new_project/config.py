@@ -15,5 +15,5 @@ conf = Configuration(__file__, {
     'secret_key': ''.join([
         choice('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)') for i in range(50)
     ]),
-    'django_version': '1.7',
+    'django_version': '1.6',
 }, creator_class=ProjectCreator)

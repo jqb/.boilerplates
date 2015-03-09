@@ -1,7 +1,11 @@
-SECRET_KEY = '_$secret_key$_'
+# -*- coding: utf-8 -*-
+from loading import *  # NOQA
 
-ROOT_URLCONF = 'settings.urls'
-TIME_ZONE = 'Europe/Warsaw'
+SECRET_KEY = env('SECRET_KEY')
+
+
+ROOT_URLCONF = 'urls'
+TIME_ZONE = 'Europe/Zurich'
 LANGUAGE_CODE = 'en'
 
 DEBUG = True
@@ -23,7 +27,8 @@ INSTALLED_APPS = (
 
     'debug_toolbar',
 
-) + apps_from('app')
+    'core',
+)
 
 
 TEMPLATE_LOADERS = (
@@ -42,12 +47,12 @@ MIDDLEWARE_CLASSES = (
 
     # debuging middleware
     'debug_toolbar.middleware.DebugToolbarMiddleware',
-    'staticserve.middleware.StaticServe',
-    'staticserve.middleware.MediaServe',
 )
 
 
-TEMPLATE_DIRS = ()
+TEMPLATE_DIRS = env('TEMPLATE_DIRS', [
+    project_path('templates'),
+])
 
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -60,9 +65,13 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 
+DATABASE_URL = env('DATABASE_URL', 'sqlite:///%s' % project_path('tmp', 'dev.db'))
+DATABASES = {'default': dj_database_url.parse(DATABASE_URL)}
+
+
 # APPS SETTINGS #########################################
 # django.contrib.sites
-SITE_ID = 1
+SITE_ID = env('SITE_ID', 1)
 
 # django.contrib.admin
 ADMIN_MEDIA_PREFIX = '/static/admin/'
@@ -71,26 +80,15 @@ ADMIN_MEDIA_PREFIX = '/static/admin/'
 INTERNAL_IPS = (
     '127.0.0.1',
 )
-DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar.panels.version.VersionDebugPanel',
-    'debug_toolbar.panels.timer.TimerDebugPanel',
-    'debug_toolbar.panels.settings_vars.SettingsVarsDebugPanel',
-    'debug_toolbar.panels.headers.HeaderDebugPanel',
-    'debug_toolbar.panels.request_vars.RequestVarsDebugPanel',
-    'debug_toolbar.panels.template.TemplateDebugPanel',
-    'debug_toolbar.panels.sql.SQLDebugPanel',
-    'debug_toolbar.panels.signals.SignalDebugPanel',
-    'debug_toolbar.panels.logger.LoggingPanel',
-)
 DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS' : False
 }
 
 # django.contrib.staticfiles
-STATIC_ROOT = confy.rootpath('..', 'static')
+STATIC_ROOT = project_path('static')
 STATIC_URL = '/static/'
 
 # media files
-MEDIA_ROOT = confy.rootpath('..', 'media')
+MEDIA_ROOT = project_path('tmp', 'media')
 MEDIA_URL = '/media/'
 # APPS SETTINGS #########################################

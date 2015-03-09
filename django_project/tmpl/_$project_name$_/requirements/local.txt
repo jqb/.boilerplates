@@ -1,0 +1,9 @@
+-r common.txt
+django-debug-toolbar
+
+# devserver staff
+-e git+git://github.com/dcramer/django-devserver#egg=django-devserver
+sqlparse      # pretty SQL formatting
+werkzeug      # interactive debugger
+guppy         # tracks memory usage (required for MemoryUseModule)
+# line_profiler # does line-by-line profiling (required for LineProfilerModule)

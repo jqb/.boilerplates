@@ -1,0 +1,5 @@
+tmp/*
+.penv/*
+settings_local.py
+env/*
+.env

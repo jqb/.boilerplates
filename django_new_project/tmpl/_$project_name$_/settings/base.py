@@ -1,18 +1,17 @@
 # -*- coding: utf-8 -*-
 import os
-import confy
+
+def create_projectpath(thefile):
+    from os.path import join, dirname, abspath
+    root = abspath(join(dirname(abspath(thefile)), '..'))
+    return lambda *a: join(root, *a)
+
+# "Temporary globals" that migth be useful
+# It can be used in each settings file as builtin
+projectpath = create_projectpath(__file__)
 
 
-confy = confy.loader(__file__)
-
-
-confy.define_module(__name__, [
-    confy.from_modules('common', os.environ.get('DJANGO_ENV', 'dev')),
-    confy.from_modules('local_settings', silent=True),
-])
-
-
-def apps_from(folder, include_name=True, as_list=False):
+def apps_from(folder, include_name=False, as_list=False):
     """
     Get all names of django-apps in the project in the given directory/module
     Assuming you have only "core" app in "app" directory::
