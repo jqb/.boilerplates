@@ -1,0 +1,11 @@
+#!/bin/env python
+import os
+
+PWD = os.getcwd()
+MVN_REPO = os.environ.get('MVN_REPO', '/home/xubuntu-vm/.m2/repository')
+CLASSPATH_PARTS = [part.format(**locals()) for part in [
+    '{PWD}/target/classes',
+    '{MVN_REPO}/org/projectlombok/lombok/1.16.18/lombok-1.16.18.jar',
+    '{MVN_REPO}/junit/junit/4.4/junit-4.4.jar',
+]]
+print(':'.join(CLASSPATH_PARTS))
